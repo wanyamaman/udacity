@@ -119,9 +119,9 @@ graph.insert_edge(100, 1, 2)
 graph.insert_edge(101, 1, 3)
 graph.insert_edge(102, 1, 4)
 graph.insert_edge(103, 3, 4)
-# Should be [(100, 1, 2), (101, 1, 3), (102, 1, 4), (103, 3, 4)]
+# Should be [[100, 1, 2], [101, 1, 3], [102, 1, 4], [103, 3, 4]]
 p graph.get_edge_list
-# Should be [nil, [(2, 100), (3, 101), (4, 102)], nil, [(4, 103)], nil]
+# Should be [nil, [[2, 100], [3, 101], [4, 102]], nil, [[4, 103]], nil]
 p graph.get_adjacency_list
 # Should be [[0, 0, 0, 0, 0], [0, 0, 100, 101, 102],
 # [0, 0, 0, 0, 0], [0, 0, 0, 0, 103], [0, 0, 0, 0, 0]]
