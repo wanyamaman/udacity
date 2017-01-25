@@ -87,7 +87,7 @@ class Graph
   end
 end
 
-# Tests-----------------------------------------------------------------------
+# -------------------------------------TESTS-----------------------------------
 
 # Remove the word 'skip' from a test to have it run.
 # Tests are run from the command line.
