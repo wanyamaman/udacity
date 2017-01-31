@@ -39,22 +39,22 @@ class Graph
     @_node_map = {}
   end
 
+  # The Nth name in names should correspond to node number N.
+  # Node numbers are 0 based (starting at 0).
   def set_node_names(names)
-    # The Nth name in names should correspond to node number N.
-    # Node numbers are 0 based (starting at 0).
     @node_names = names
   end
 
+  # Insert a new node with value new_node_val
   def insert_node(new_node_val)
-    # Insert a new node with value new_node_val
     new_node = Node.new(new_node_val)
     @nodes << new_node
     @_node_map[new_node_val] = new_node
     new_node
   end
 
+  # Insert a new edge, creating new nodes if necessary
   def insert_edge(new_edge_val, node_from_val, node_to_val)
-    # Insert a new edge, creating new nodes if necessary
     nodes = { node_from_val => nil, node_to_val => nil }
     @nodes.each do |node|
       next unless nodes.include?(node.value)
@@ -73,9 +73,9 @@ class Graph
     new_edge
   end
 
+  # Return a list of triples that looks like this:
+  # [Edge Value, From Node, To Node]
   def get_edge_list
-    # Return a list of triples that looks like this:
-    # [Edge Value, From Node, To Node]
     e_list = []
 
     @edges.each do |e|
@@ -85,9 +85,9 @@ class Graph
     e_list
   end
 
+  # Return a list of triples that looks like this:
+  # [Edge Value, From Node Name, To Node Name]
   def get_edge_list_names
-    # Return a list of triples that looks like this:
-    # [Edge Value, From Node Name, To Node Name]
     e_list = []
 
     @edges.each do |edge|
@@ -99,12 +99,12 @@ class Graph
     e_list
   end
 
+  # Return a list of lists.
+  # The indecies of the outer list represent "from" nodes.
+  # Each section in the list will store a list
+  # of tuples that looks like this:
+  # [To Node, Edge Value]
   def get_adjacency_list
-    # Return a list of lists.
-    # The indecies of the outer list represent "from" nodes.
-    # Each section in the list will store a list
-    # of tuples that looks like this:
-    # [To Node, Edge Value]
     max_index = find_max_index
     adjacency_list = [nil] * max_index
     @edges.each do |edg|
@@ -119,12 +119,12 @@ class Graph
     adjacency_list
   end
 
+  # Each section in the list will store a list
+  # of tuples that looks like this:
+  # [To Node Name, Edge Value].
+  # Node names should come from the names set
+  # with set_node_names.
   def get_adjacency_list_names
-    # Each section in the list will store a list
-    # of tuples that looks like this:
-    # [To Node Name, Edge Value].
-    # Node names should come from the names set
-    # with set_node_names.
     adjacency_list = get_adjacency_list
 
     adjacency_list_with_names = adjacency_list.map do |adjacency_list_for_node|
@@ -136,12 +136,12 @@ class Graph
     adjacency_list_with_names
   end
 
+  # Return a matrix, or 2D list.
+  # Row numbers represent from nodes,
+  # column numbers represent to nodes.
+  # Store the edge values in each spot,
+  # and a 0 if no edge exists.
   def get_adjacency_matrix
-    # Return a matrix, or 2D list.
-    # Row numbers represent from nodes,
-    # column numbers represent to nodes.
-    # Store the edge values in each spot,
-    # and a 0 if no edge exists."""
     max_index = find_max_index
     adjacency_matrix = [nil] * max_index
     adjacency_matrix.map! { [0] * max_index }
@@ -153,9 +153,9 @@ class Graph
     adjacency_matrix
   end
 
+  # Return the highest found node number
+  # Or the length of the node names if set with set_node_names().
   def find_max_index
-    # Return the highest found node number
-    # Or the length of the node names if set with set_node_names().
     return @node_names.length unless @node_names.empty?
 
     max_index = -1
@@ -167,8 +167,8 @@ class Graph
     max_index >= 0 ? (return max_index + 1) : (return -1)
   end
 
+  # Return the node with value node_number or nil
   def find_node(node_number)
-    # Return the node with value node_number or nil
     @_node_map[node_number]
   end
 
@@ -176,14 +176,14 @@ class Graph
     @nodes.each { |node| node.visited = false }
   end
 
+  # DONE: Write the helper function for a recursive implementation
+  # of Depth First Search iterating through a node's edges. The
+  # output should be a list of numbers corresponding to the
+  # values of the traversed nodes.
+  # ARGUMENTS: start_node is the starting Node
+  # MODIFIES: the value of the visited property of nodes in self.nodes
+  # RETURN: a list of the traversed node values (integers).
   def dfs_helper(start_node)
-    # DONE: Write the helper function for a recursive implementation
-    # of Depth First Search iterating through a node's edges. The
-    # output should be a list of numbers corresponding to the
-    # values of the traversed nodes.
-    # ARGUMENTS: start_node is the starting Node
-    # MODIFIES: the value of the visited property of nodes in self.nodes
-    # RETURN: a list of the traversed node values (integers).
 
     ret_list = [start_node.value]
     # Your code here
@@ -196,31 +196,31 @@ class Graph
     return ret_list
   end
 
+  # Outputs a list of numbers corresponding to the traversed nodes
+  # in a Depth First Search.
+  # ARGUMENTS: start_node_num is the starting node number (integer)
+  # MODIFIES: the value of the visited property of nodes in self.nodes
+  # RETURN: a list of the node values (integers).
   def dfs(start_node_num)
-    # Outputs a list of numbers corresponding to the traversed nodes
-    # in a Depth First Search.
-    # ARGUMENTS: start_node_num is the starting node number (integer)
-    # MODIFIES: the value of the visited property of nodes in self.nodes
-    # RETURN: a list of the node values (integers).
     _clear_visited
     start_node = find_node(start_node_num)
     dfs_helper(start_node)
   end
 
+  # Return the results of dfs with numbers converted to names.
   def dfs_names(start_node_num)
-    # Return the results of dfs with numbers converted to names.
     dfs(start_node_num).map do |num|
       @node_names[num]
     end
   end
 
+  # DONE: Create an iterative implementation of Breadth First Search
+  # iterating through a node's edges. The output should be a list of
+  # numbers corresponding to the traversed nodes.
+  # ARGUMENTS: start_node_num is the node number (integer)
+  # MODIFIES: the value of the visited property of nodes in self.nodes
+  # RETURN: a list of the node values (integers).
   def bfs(start_node_num)
-    # DONE: Create an iterative implementation of Breadth First Search
-    # iterating through a node's edges. The output should be a list of
-    # numbers corresponding to the traversed nodes.
-    # ARGUMENTS: start_node_num is the node number (integer)
-    # MODIFIES: the value of the visited property of nodes in self.nodes
-    # RETURN: a list of the node values (integers).
     node = find_node(start_node_num)
     _clear_visited
     ret_list = [node.value]
@@ -242,8 +242,8 @@ class Graph
     return ret_list
   end
 
+  # Return the results of bfs with numbers converted to names.
   def bfs_names(start_node_num)
-    # Return the results of bfs with numbers converted to names.
     bfs(start_node_num).map do |num|
       @node_names[num]
     end
